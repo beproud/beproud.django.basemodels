@@ -8,11 +8,6 @@ try:
 except ImportError:
     import pickle
 
-# try:
-#     import json
-# except ImportError:
-#     import simplejson as json
-
 from django import VERSION as DJANGO_VERSION
 from django.core import exceptions
 from django.utils.translation import ugettext_lazy as _
@@ -24,16 +19,11 @@ from django.db.models import BigIntegerField
 
 from django.db import models
 
-# from beproud.django.commons.forms import JSONField as JSONFormField
-# from beproud.django.commons.forms.widgets import JSONWidget
-# from beproud.django.commons.utils.javascript import DjangoJSONEncoder
-
 __all__ = (
     'BigIntegerField',
     'PositiveBigIntegerField',
     'BigAutoField',
     'PickledObjectField',
-    # 'JSONField',
 )
 
 
@@ -147,38 +137,6 @@ class PickledObjectField(models.TextField):
         if value is None:
             return
         return base64.b64encode(pickle.dumps(value))
-
-
-# class JSONField(models.TextField):
-#     __metaclass__ = models.SubfieldBase
-
-#     def __init__(self, *args, **kwargs):
-#         warn = 'JSONField is deprecated. Use django-jsonfield instead.'
-#         warnings.warn(warn)
-#         super(JSONField, self).__init__(*args, **kwargs)
-
-#     def formfield(self, **kwargs):
-#         defaults = {'widget': JSONWidget, 'form_class': JSONFormField}
-#         defaults.update(kwargs)
-#         return super(JSONField, self).formfield(**defaults)
-
-#     def to_python(self, value):
-#         # If value is a bastring but empty then pass
-#         if isinstance(value, basestring):
-#             if value == '':
-#                 return None
-#             else:
-#                 value = json.loads(value)
-#         return value
-
-#     def get_db_prep_value(self, value, connection=None, prepared=None):
-#         if value is None:
-#             return
-#         return json.dumps(value, cls=DjangoJSONEncoder)
-
-#     def value_to_string(self, obj):
-#         value = self._get_val_from_obj(obj)
-#         return self.get_db_prep_value(value)
 
 
 try:
