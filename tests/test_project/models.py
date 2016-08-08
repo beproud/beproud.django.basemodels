@@ -64,3 +64,10 @@ class DummyChildModel(models.Model):
 
     class Meta:
         app_label = 'test_project'
+
+
+class DummyPickleFieldModel(models.Model):
+    pickled_object = fields.PickledObjectField(DummyBaseModel)
+
+    class Meta:
+        app_label = 'test_project'

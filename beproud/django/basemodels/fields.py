@@ -117,7 +117,6 @@ class PositiveBigIntegerField(BigIntegerField):
 
 
 class PickledObjectField(models.TextField):
-    __metaclass__ = models.SubfieldBase
 
     def __init__(self, *args, **kwargs):
         warnings.warn(
@@ -126,11 +125,10 @@ class PickledObjectField(models.TextField):
 
         super(PickledObjectField, self).__init__(*args, **kwargs)
 
-    def to_python(self, value):
+    def from_db_value(self, value, expression, connection, context):
         if value is None:
             return None
-        if not isinstance(value, basestring):
-            return value
+
         return pickle.loads(base64.b64decode(value))
 
     def get_db_prep_save(self, value, connection=None):
