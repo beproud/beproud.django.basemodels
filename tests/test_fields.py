@@ -83,7 +83,7 @@ class TestBigAutoField(object):
         # act
         with mock.patch(
                 'beproud.django.basemodels.fields.load_backend',
-                side_effect=lambda x: backend,
+                return_value=backend,
         ):
             with mock.patch('django.db.connections', django_db_connections):
                 actual = field.db_type(connection)

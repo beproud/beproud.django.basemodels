@@ -5,8 +5,8 @@ import warnings
 
 try:
     import cPickle as pickle
-except ImportError:
-    import pickle  # pragma: no cover
+except ImportError:  # pragma: no cover
+    import pickle
 
 from django import VERSION as DJANGO_VERSION
 from django.core import exceptions

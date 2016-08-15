@@ -32,10 +32,6 @@ class TestDatedModel(object):
         assert before < model_obj.utime < datetime.now()
         assert model_obj.ctime < model_obj.utime
 
-    def test_it(self, model_cls):
-        x = model_cls()
-        assert x
-
 
 @pytest.mark.django_db
 class TestDatedModelManager(object):
@@ -103,7 +99,6 @@ class TestBaseManager(TestDatedModelManager):
             model_cls.objects.create(del_flg=False),
             model_cls.objects.create(del_flg=False),
         ]
-        model_cls.objects.create(del_flg=True)
 
         # act
         actual = model_cls.objects.be()
