@@ -1,10 +1,30 @@
 language: python
+services:
+  - mysql
+  - sqlite
+  - postgres
+
 python:
   - "2.7"
+
+before_script:
+  - if [[ "$TRAVIS_PYTHON_VERSION" = '2.7' ]]; then export TOX_ENV=py27,flake8; fi
+  - if [[ "$TRAVIS_PYTHON_VERSION" = '3.4' ]]; then export TOX_ENV=py34; fi
+  - if [[ "$DB" = 'postgres' ]]; then psql -c 'DROP DATABASE IF EXISTS basemodels_tests' -U postgres; fi
+  - if [[ "$DB" = 'postgres' ]]; then psql -c 'CREATE DATABASE basemodels_tests' -U postgres; fi
+  - if [[ "$DB" = 'mysql'    ]]; then mysql -e 'DROP DATABASE IF EXISTS basemodels_tests'; fi
+  - if [[ "$DB" = 'mysql'    ]]; then mysql -e 'CREATE DATABASE basemodels_tests'; fi
+  - if [[ "$DB" = 'postgres' ]]; then export DB_URL='postgres://postgres@localhost:5432/basemodels_tests'; fi
+  - if [[ "$DB" = 'mysql'    ]]; then export DB_URL='mysql://travis@localhost:3306/basemodels_tests'; fi
+  - if [[ "$DB" = 'sqlite'   ]]; then export DB_URL='sqlite://:memory:'; fi
+  - echo $DB_URL
+  - echo $TOX_ENV
+
 env:
   matrix:
-    - TOX_ENV=py27
-    - TOX_ENV=py34
-    - TOX_ENV=flake8
+    - DB=sqlite
+    - DB=mysql
+    - DB=postgres
+
 install: "pip install tox"
 script: tox

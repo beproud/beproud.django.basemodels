@@ -5,7 +5,7 @@ import warnings
 
 try:
     import cPickle as pickle
-except ImportError:
+except ImportError:  # pragma: no cover
     import pickle
 
 from django import VERSION as DJANGO_VERSION
@@ -139,7 +139,7 @@ class PickledObjectField(models.TextField):
         return base64.b64encode(pickle.dumps(value))
 
 
-try:
+try:  # pragma: no cover
     from south.modelsinspector import add_introspection_rules
 
     add_introspection_rules([
