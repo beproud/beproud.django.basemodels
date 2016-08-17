@@ -198,6 +198,24 @@ class TestPickledObjectField(object):
         from beproud.django.basemodels.fields import PickledObjectField
         return PickledObjectField
 
+    @pytest.fixture
+    def model_cls(self):
+        from test_project.models import DummyPickleFieldModel
+        return DummyPickleFieldModel
+
+    def test_it(self, model_cls):
+        # setup
+        object_ = {'a': [1, 2, 3], 'b': ('AAA', 'BBB'), 'c': None}
+
+        # act
+        instance = model_cls.objects.create(
+            pickled_object=object_,
+        )
+        gotten = model_cls.objects.get(pk=instance.pk)
+
+        # assert
+        assert gotten.pickled_object == object_
+
     @pytest.mark.parametrize(
         'value,expected',
         (
@@ -219,16 +237,15 @@ class TestPickledObjectField(object):
         'value,expected',
         (
             (None, None),
-            ([], []),
             ('UydhYWEnCnAxCi4=', 'aaa'),
         )
     )
-    def test_to_python(self, value, expected, target):
+    def test_from_db_value(self, value, expected, target):
         # arrange
         field = target()
 
         # act
-        actual = field.to_python(value)
+        actual = field.from_db_value(value, None, None, None)
 
         # assert
         assert actual == expected

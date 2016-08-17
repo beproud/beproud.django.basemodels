@@ -69,4 +69,11 @@ class Migration(migrations.Migration):
                 ('non_int', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='test_project.DummyNonIntegerPKModel')),
             ],
         ),
+        migrations.CreateModel(
+            name='DummyPickleFieldModel',
+            fields=[
+                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('pickled_object', beproud.django.basemodels.fields.PickledObjectField()),
+            ],
+        ),
     ]
