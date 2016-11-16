@@ -8,7 +8,7 @@ requires = [
 setup(
     name='beproud.django.basemodels',
     version='0.1',
-    description='Common utilities for Django',
+    description='beproud.django.basemodels provides base models and fields, that comes from bpcommons.',
     author='BeProud Inc.',
     author_email='xiao@beproud.jp',
     url='http://www.beproud.jp/',
